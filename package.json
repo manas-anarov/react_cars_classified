@@ -1,0 +1,42 @@
+{
+  "name": "gui",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@ant-design/icons": "4.0.0",
+    "antd": "^3.7.3",
+    "antd-image-slide": "^1.0.8",
+    "axios": "^0.18.1",
+    "fotorama-react-wrapper": "^1.0.7",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-image-gallery": "^1.0.7",
+    "react-js-pagination": "^3.0.3",
+    "react-redux": "^5.0.7",
+    "react-responsive-carousel": "^3.2.7",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "1.1.4",
+    "react-slick": "^0.26.1",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0",
+    "yarn": "^1.21.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
