@@ -32,12 +32,12 @@ constructor(props) {
 
         area:1,
         group:1,
-        title: '',
-        description: '',
-        price:null,
+        title: '1',
+        description: '1',
+        price:1,
         is_active:true,
         car_type:1,
-        year:null,
+        year:1,
 
         image: null,
         
@@ -135,7 +135,10 @@ constructor(props) {
     form_data.append('item.description', this.state.description);
     form_data.append('item.price', this.state.price);
     form_data.append('item.is_active', this.state.is_active);
+
     form_data.append('car_type', this.state.car_type);
+    form_data.append('year', 1993);
+    form_data.append('item_type', 1);
 
 
     for(let i=0; i< this.state.fileList.length; i++){
@@ -143,13 +146,12 @@ constructor(props) {
     }
 
 
-
         authAxios.post(PostCreateURL, form_data,
           {
-      headers: {
-        'content-type': 'multipart/form-data'
-      }}
-      )
+            headers: {
+              'content-type': 'multipart/form-data'
+            }}
+            )
         .then(res => {
   
           alert("Текст Сакталды");

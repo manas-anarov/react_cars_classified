@@ -14,6 +14,7 @@ import ProfileList from './containers/ProfileList';
 
 
 import PostCreate from './containers/PostCreate';
+import PostCreateAuto from './containers/PostCreateAuto';
 import PostCreateItem from './containers/PostCreateItem';
 import PostUpdate from './containers/PostUpdate';
 
@@ -57,7 +58,7 @@ const Routes = [
     },
     {
         path: "/add/",
-        component: PostCreate
+        component: PostCreateAuto
     },
     {
         path: "/add/item/",

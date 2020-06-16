@@ -29,6 +29,7 @@ class PostCategory extends Component {
       brand:null,
       area:null,
       page:null,
+      post_type:null,
       
       search_text:null,
 
@@ -57,9 +58,6 @@ class PostCategory extends Component {
   var params = new URLSearchParams();
   params.append("page", page);
 
-  if (this.state.brand){
-    params.append("brand", this.state.brand);
-  }
 
   if (this.state.area){
     params.append("area", this.state.area);
@@ -67,6 +65,16 @@ class PostCategory extends Component {
 
   if (this.state.search_text){
       params.append("search", this.state.search_text);
+  }
+
+  if (this.state.post_type){
+      params.append("post_type", this.state.post_type);
+  }
+
+  if (this.state.post_type==1){
+    if (this.state.brand){
+      params.append("brand", this.state.brand);
+    }
   }
 
   var request = {
@@ -96,8 +104,11 @@ class PostCategory extends Component {
   handleSortChange(){
 
 
+
+
     this.setState({
-        isButtonDisabled: true
+        isButtonDisabled: true,
+        activePage:1
     });
 
     setTimeout(() => this.setState({ isButtonDisabled: false }), 3000);
@@ -118,10 +129,21 @@ class PostCategory extends Component {
 
     if (this.state.area){
 
-      if(this.state.area!=0){
+      if( this.state.area!=0){
         params.append("area", this.state.area);
       }
     }
+
+    // if post type is not universal
+    if (this.state.post_type){
+      if( this.state.post_type != 0 && this.state.post_type != 2){
+          console.log(this.state.post_type)
+          params.append("post_type", this.state.post_type);
+      }
+      
+    }
+
+
 
     if (this.state.search_text){
       params.append("search", this.state.search_text);
@@ -159,8 +181,9 @@ class PostCategory extends Component {
         brand: value
       })
     }
-      
   };
+
+
 
   handleChangeSelectCity = value => {
 
@@ -178,6 +201,31 @@ class PostCategory extends Component {
 
   };
 
+
+handleChangeSelectPostType = value => {
+
+    if (value === 0)
+    {
+      this.setState({
+        post_type: null
+      })
+    }
+
+    // if (value === 2)
+    // {
+    //   this.setState({
+    //     post_type: null
+    //   })
+    // }
+
+
+    else{
+      this.setState({
+        post_type: value
+      })
+    }
+
+  };
 
 
   handleChangeSearch = (e) => {
@@ -203,7 +251,40 @@ class PostCategory extends Component {
 
       <Row gutter={16}>
 
-      <Col span={8} xs={24} sm={24} md={12} lg={6} xl={6} className="col-pad-custom">
+      <Col span={8} xs={24} sm={24} md={12} lg={4} xl={4} className="col-pad-custom">
+
+
+          <Select id="post_type" defaultValue="0" style={{ width: 120 }} onChange={this.handleChangeSelectPostType}>
+            <Option value="0">Категория</Option>
+            <Option value="1">Авто</Option>
+            <Option value="2">Баары</Option>
+          </Select>
+
+
+        </Col>
+
+
+
+      
+
+      <Col span={8} xs={24} sm={24} md={12} lg={4} xl={4} className="col-pad-custom">
+
+
+          <Select id="city" defaultValue="1" style={{ width: 120 }} onChange={this.handleChangeSelectCity}>
+            <Option value="0">Область</Option>
+            <Option value="1">Чуй</Option>
+            <Option value="2">Ош</Option>
+            <Option value="3">Джалал-Абад</Option>
+            <Option value="4">Ыссык Кол</Option>
+            <Option value="5">Нарын</Option>
+            <Option value="6">Талас</Option>
+            <Option value="7">Баткен</Option>
+          </Select>
+        </Col>
+
+
+        { (this.state.post_type == 1)? (
+            <Col span={8} xs={24} sm={24} md={12} lg={4} xl={4} className="col-pad-custom">
 
           <Select id="brand" defaultValue="1" style={{ width: 120 }} onChange={this.handleChangeSelectBrand}>
             <Option value="0">Марка</Option>
@@ -222,25 +303,17 @@ class PostCategory extends Component {
 
         </Col>
 
-      <Col span={8} xs={24} sm={24} md={12} lg={6} xl={6} className="col-pad-custom">
+            ) : ('')
+        }
+
+        
+
+        
 
 
-          <Select id="city" defaultValue="1" style={{ width: 120 }} onChange={this.handleChangeSelectCity}>
-            <Option value="0">Область</Option>
-            <Option value="1">Чуй</Option>
-            <Option value="2">Ош</Option>
-            <Option value="3">Джалал-Абад</Option>
-            <Option value="4">Ыссык Кол</Option>
-            <Option value="5">Нарын</Option>
-            <Option value="6">Талас</Option>
-            <Option value="7">Баткен</Option>
-          </Select>
+        
 
-
-
-        </Col>
-
-        <Col span={8} xs={24} sm={24} md={12} lg={6} xl={6} className="col-pad-custom">
+        <Col span={8} xs={24} sm={24} md={12} lg={4} xl={4} className="col-pad-custom">
 
           <Input name="title" placeholder="Издоо текст" id='title' value={this.state.search_text} onChange={this.handleInputChange.bind(this)}  />
 
@@ -264,6 +337,7 @@ class PostCategory extends Component {
 
         <Divider/>
 
+        <p>Жалпы посттордун саны: {this.state.totalItemsCount}</p>
        
        
 

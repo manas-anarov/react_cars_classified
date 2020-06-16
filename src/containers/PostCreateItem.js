@@ -126,7 +126,7 @@ constructor(props) {
     form_data.append('item.is_active', this.state.is_active);
 
     
-    form_data.append('item_type', 1);
+    form_data.append('item_type', 2);
 
     for(let i=0; i< this.state.fileList.length; i++){
       form_data.append("files",this.state.fileList[i].originFileObj);
