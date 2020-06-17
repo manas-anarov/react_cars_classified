@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import {Pagination} from 'antd'
 import axios from 'axios';
 
-import { Button, Card, Col, Row, Input, List, Avatar } from 'antd';
+import { Button, Card, Col, Row, Input, List, Avatar, Spin } from 'antd';
 import { Select, Divider } from 'antd';
 
 import { postCatedoryURL, site_host, no_image } from "../constants";
 import { Link } from 'react-router-dom';
+import "../css/spin.css";
 
 
 
@@ -40,6 +41,7 @@ class PostCategory extends Component {
 
   componentDidMount()
   {
+    this.setState({ loading: true });
     axios.get(postCatedoryURL)
     .then(response=>{
       this.setState({
@@ -49,11 +51,14 @@ class PostCategory extends Component {
         activePage:response.data.currentPage,
         pageRangeDisplayed:response.data.total_pages,
       });
+      this.setState({ loading: false });
     });
   }
  
 
  onChangePagin = page => {
+
+  
 
   var params = new URLSearchParams();
   params.append("page", page);
@@ -81,6 +86,7 @@ class PostCategory extends Component {
     params: params
   };
 
+    this.setState({ loading: true });
 
     axios.get(postCatedoryURL,
       request
@@ -92,6 +98,7 @@ class PostCategory extends Component {
         totalItemsCount:response.data.count,
         pageRangeDisplayed:response.data.total_pages,
       });
+      this.setState({ loading: false });
     });
 
 
@@ -153,7 +160,7 @@ class PostCategory extends Component {
       params: params
     };
 
-
+    this.setState({ loading: true });
     axios.get(postCatedoryURL, 
       request
     )
@@ -163,6 +170,7 @@ class PostCategory extends Component {
         itemsCountPerPage:response.data.limit,
         totalItemsCount:response.data.count,
         pageRangeDisplayed:response.data.total_pages,
+        loading: false
       });
     });
   }
@@ -211,14 +219,6 @@ handleChangeSelectPostType = value => {
       })
     }
 
-    // if (value === 2)
-    // {
-    //   this.setState({
-    //     post_type: null
-    //   })
-    // }
-
-
     else{
       this.setState({
         post_type: value
@@ -249,6 +249,12 @@ handleChangeSelectPostType = value => {
 
       <div>
 
+
+      {this.state.loading && (
+          <div className="loading-spin">
+            <Spin />
+          </div>
+        )}
       <Row gutter={16}>
 
       <Col span={8} xs={24} sm={24} md={12} lg={4} xl={4} className="col-pad-custom">

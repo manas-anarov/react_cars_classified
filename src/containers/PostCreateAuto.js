@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Form, Input, Select, Button, Upload, Modal, Divider } from 'antd';
+import { Form, Input, Select, Button, Upload, Modal, Divider, message, Spin } from 'antd';
 
 
 import {  PostCreateURL} from "../constants";
 import { authAxios } from "../utils";
+import "../css/spin.css";
 
 const { Option } = Select;
 
@@ -25,7 +26,6 @@ function getBase64(file) {
 
 class PostCreateAuto extends Component {
 
-
 constructor(props) {
     super(props);
       this.state = {
@@ -38,6 +38,7 @@ constructor(props) {
         is_active:true,
         car_type:1,
         year:1,
+        post_type:0,
 
         image: null,
         
@@ -47,8 +48,9 @@ constructor(props) {
         previewTitle: '',
         fileList: [],
 
+        isButtonDisabled: false,
 
-        isButtonDisabled: false
+        loading: false
 
       }
    
@@ -110,6 +112,23 @@ constructor(props) {
   };
 
 
+  handleChangeSelectPostType = value => {
+
+    if (value === 0)
+    {
+      this.setState({
+        post_type: null
+      })
+    }
+    else{
+      this.setState({
+        post_type: value
+      })
+    }
+
+  };
+
+
 
 
 
@@ -136,16 +155,27 @@ constructor(props) {
     form_data.append('item.price', this.state.price);
     form_data.append('item.is_active', this.state.is_active);
 
-    form_data.append('car_type', this.state.car_type);
-    form_data.append('year', 1993);
-    form_data.append('item_type', 1);
 
+
+    if (this.state.post_type == 1){
+      form_data.append('car_type', this.state.car_type);
+      form_data.append('year', 1993);
+    }
+
+    
+    form_data.append('item_type', this.state.post_type );
+
+    if (this.state.post_type == 0){
+      form_data.append('item_type', 2);
+    }
 
     for(let i=0; i< this.state.fileList.length; i++){
       form_data.append("files",this.state.fileList[i].originFileObj);
     }
 
 
+
+        this.setState({ loading: true });
         authAxios.post(PostCreateURL, form_data,
           {
             headers: {
@@ -153,13 +183,16 @@ constructor(props) {
             }}
             )
         .then(res => {
-  
-          alert("Текст Сакталды");
-          
+          message.success("Текст Сакталды", 1);
           console.log(res.data);
+          this.setState({ loading: false });
 
         })
-        .catch(err => console.log(err))
+        .catch(err => 
+          {
+            message.error(err.message, 1);
+            this.setState({ loading: false });
+          })
 
 
   };
@@ -176,28 +209,31 @@ constructor(props) {
       </div>
     );
 
-
     return (
       <div className="App">
+
+      {this.state.loading && (
+          <div className="loading-spin">
+            <Spin />
+          </div>
+        )}
+
         <form onSubmit={this.handleSubmit}>
 
+       <FormItem label="Категория" >
 
-        <FormItem label="Марка" >
-          <Select id="brand" defaultValue="1" style={{ width: 120 }} onChange={this.handleChangeSelectBrand}>
-            <Option value="1">Танданыз</Option>
-            <Option value="2">Honda</Option>
-            <Option value="3">Toyota</Option>
-            <Option value="4">Mercedes-Benz</Option>
-            <Option value="5">BMW</Option>
-            <Option value="6">Audi</Option>
-            <Option value="7">Daewoo</Option>
-            <Option value="8">Hyundai</Option>
-            <Option value="9">KIA</Option>
-            <Option value="10">Lada</Option>
-            <Option value="11">Lexus</Option>
-            <Option value="12">Mazda</Option>
+
+          <Select id="post_type" defaultValue="0" style={{ width: 120 }} onChange={this.handleChangeSelectPostType}>
+            <Option value="0">Категория</Option>
+            <Option value="1">Авто</Option>
+            <Option value="2">Баары</Option>
           </Select>
-        </FormItem>
+
+
+         </FormItem>
+
+
+        
 
 
         <FormItem label="Область" >
@@ -213,6 +249,32 @@ constructor(props) {
         </FormItem>
 
 
+        { (this.state.post_type == 1)? (
+          <div>
+        <FormItem label="Марка" >
+          <Select id="brand" defaultValue="1" style={{ width: 120 }} onChange={this.handleChangeSelectBrand}>
+            <Option value="0">Танданыз</Option>
+            <Option value="1">Honda</Option>
+            <Option value="2">Toyota</Option>
+            <Option value="3">Mercedes-Benz</Option>
+            <Option value="4">BMW</Option>
+            <Option value="5">Audi</Option>
+            <Option value="6">Daewoo</Option>
+            <Option value="7">Hyundai</Option>
+            <Option value="8">KIA</Option>
+            <Option value="9">Lada</Option>
+            <Option value="10">Lexus</Option>
+            <Option value="11">Mazda</Option>
+          </Select>
+        </FormItem>
+        <FormItem label="Жылы" >
+          <Input name="year" type="number" placeholder="Жылы" id='year' value={this.state.year} onChange={this.handleChange} required />
+        </FormItem>
+      </div>
+        ) : ('')
+      }
+
+
         <FormItem label="Тема" >
           <Input name="title" placeholder="Тема" id='title' value={this.state.title} onChange={this.handleChange} required />
         </FormItem>
@@ -225,9 +287,7 @@ constructor(props) {
           <Input name="price" type="number" placeholder="Баасы" id='price' value={this.state.price} onChange={this.handleChange} required />
         </FormItem>
 
-        <FormItem label="Жылы" >
-          <Input name="year" type="number" placeholder="Жылы" id='year' value={this.state.year} onChange={this.handleChange} required />
-        </FormItem>
+        
 
 
         
