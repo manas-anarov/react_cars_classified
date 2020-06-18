@@ -51,7 +51,7 @@ class ProfileList extends Component {
   handleDelete(event,id)
   {
     
-    axios.delete(productDeleteURL(id))
+    authAxios.delete(productDeleteURL(id))
     .then(response=>{
       this.componentDidMount();
     });

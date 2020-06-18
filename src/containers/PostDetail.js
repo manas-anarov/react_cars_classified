@@ -28,7 +28,8 @@ class PostDetail extends React.Component {
 
     state = {
         article: {},
-        images:[]
+        images:[],
+        item_type:0
     }
 
     
@@ -38,7 +39,8 @@ class PostDetail extends React.Component {
             .then(res => {
                 this.setState({
                     article: res.data,
-                    images:res.data.images_slider
+                    images:res.data.images_slider,
+                    item_type:res.data.item_type
                 });
             })
     }
@@ -66,12 +68,21 @@ class PostDetail extends React.Component {
                     <Card.Grid hoverable={false} style={gridStyle}>
                         Цена: {this.state.article.price}
                     </Card.Grid>
-                    <Card.Grid hoverable={false} style={gridStyle}>
-                        Марка: {this.state.article.car_type_name}
-                    </Card.Grid>
-                    <Card.Grid hoverable={false} style={gridStyle}>
-                        Год: {this.state.article.year}
-                    </Card.Grid>
+
+
+                    { this.state.item_type == 2 ? (
+                            <React.Fragment>
+                                <Card.Grid hoverable={false} style={gridStyle}>
+                                    Марка: {this.state.article.car_type_name}
+                                </Card.Grid>
+                                <Card.Grid hoverable={false} style={gridStyle}>
+                                    Год: {this.state.article.year}
+                                </Card.Grid>
+                            </React.Fragment>
+                        ) : ('')
+                    }
+
+                    
                 </Card>
 
 

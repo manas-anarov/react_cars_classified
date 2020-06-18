@@ -166,7 +166,7 @@ constructor(props) {
     form_data.append('item_type', this.state.post_type );
 
     if (this.state.post_type == 0){
-      form_data.append('item_type', 2);
+      form_data.append('item_type', 1);
     }
 
     for(let i=0; i< this.state.fileList.length; i++){
@@ -225,8 +225,8 @@ constructor(props) {
 
           <Select id="post_type" defaultValue="0" style={{ width: 120 }} onChange={this.handleChangeSelectPostType}>
             <Option value="0">Категория</Option>
-            <Option value="1">Авто</Option>
-            <Option value="2">Баары</Option>
+            <Option value="1">Баары</Option>
+            <Option value="2">Авто</Option>
           </Select>
 
 
@@ -249,7 +249,7 @@ constructor(props) {
         </FormItem>
 
 
-        { (this.state.post_type == 1)? (
+        { (this.state.post_type == 2)? (
           <div>
         <FormItem label="Марка" >
           <Select id="brand" defaultValue="1" style={{ width: 120 }} onChange={this.handleChangeSelectBrand}>
@@ -293,7 +293,7 @@ constructor(props) {
         
       <div className="clearfix">
         <Upload
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          action={PostCreateURL}
           listType="picture-card"
           fileList={fileList}
           onPreview={this.handlePreview}
@@ -315,7 +315,6 @@ constructor(props) {
           <Divider/>
 
         
-
           <Button type="primary" htmlType="submit" disabled={this.state.isButtonDisabled}>Сактоо</Button>
 
 

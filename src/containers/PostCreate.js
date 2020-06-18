@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form, Input, Select, Button, Upload, Modal, Divider } from 'antd';
 
 
-import { PostCreateCarURL } from "../constants";
+import { PostCreateURL } from "../constants";
 import { authAxios } from "../utils";
 
 const { Option } = Select;
@@ -153,7 +153,7 @@ constructor(props) {
 
 
 
-    authAxios.post(PostCreateCarURL,form_data,
+    authAxios.post(PostCreateURL,form_data,
       {
         headers: {
           'content-type': 'multipart/form-data'

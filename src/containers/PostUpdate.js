@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Form, Input,  Select, Upload, Modal } from 'antd';
-
-
+import { productEditURL } from "../constants";
+import { authAxios } from "../utils";
 
 const { Option } = Select;
 
@@ -60,7 +60,7 @@ constructor(props) {
 
   componentDidMount() {
     const articleID = this.props.match.params.articleID;
-    axios.get(`http://127.0.0.1:8000/api/v1/reklama/edit/${articleID}/`)
+    authAxios.get(productEditURL(articleID))
     .then(res => {
       this.setState({
         article: res.data,
@@ -174,16 +174,13 @@ constructor(props) {
 
 
 
-    const mytoken =  localStorage.getItem('token');
     const articleID = this.props.match.params.articleID;  
 
-    let url = `http://127.0.0.1:8000/api/v1/reklama/edit/${articleID}/`;
-        axios.put(url, form_data, {
-          headers: {
-            'content-type': 'multipart/form-data',
-            'Authorization': 'Token ' + mytoken,
-          }
-        })
+    authAxios.put(productEditURL(articleID), form_data, {
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    })
         
         .then(res => {
 

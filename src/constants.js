@@ -6,13 +6,11 @@ export const endpoint = `${localhost}${apiURL}`;
 
 export const accountEditURL = `${endpoint}/accounts/edit/`;
 export const productDeleteURL = id => `${endpoint}/reklama/edit/${id}/`;
+export const productEditURL = id => `${endpoint}/reklama/edit/${id}/`;
 
 export const profileListURL = `${endpoint}/reklama/profile/list/`;
 
-export const PostCreateCarURL = `${endpoint}/reklama/add/car/`;
 export const PostCreateURL = `${endpoint}/reklama/add/car/`;
-export const PostCreateMyURL = `${endpoint}/reklama/add/car/`;
-export const PostCreateItemURL = `${endpoint}/reklama/add/item/`;
 
 export const postCatedoryURL = `${endpoint}/reklama/list/`;
 export const no_image = '/media/none/no-img.jpg';
