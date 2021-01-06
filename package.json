@@ -8,7 +8,7 @@
     "@ant-design/icons": "4.0.0",
     "antd": "^3.7.3",
     "antd-image-slide": "^1.0.8",
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "fotorama-react-wrapper": "^1.0.7",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
